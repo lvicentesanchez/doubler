@@ -1,5 +1,7 @@
 defmodule Router.Person do
-    import Data.Person
+    
+    import Plug.Conn
+    import Poison
 
     use Plug.Router
 
@@ -7,12 +9,15 @@ defmodule Router.Person do
     plug :dispatch
 
     match "/", via: :post do
-        { :ok, body, conn } = Plug.Conn.read_body(conn, [])
-        person = Poison.decode!(body, as: Data.Person)
-        send_resp(conn, 200, Poison.Encoder.encode(%{person | age: person.age*2}, []))
+        { :ok, body, conn } = read_body(conn, [])
+        person = decode!(body, as: Data.Person)
+        { :ok, response } = encode(%{person | age: person.age*2}, [])
+        send_resp(conn, 200, response)
     end
 
     match _ do
         send_resp(conn, 404, "oops")
     end
+
 end
+
