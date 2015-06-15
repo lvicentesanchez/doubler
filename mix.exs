@@ -14,7 +14,8 @@ defmodule Doubler.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:cowboy, :logger, :plug, :poison]]
+    [applications: [:cowboy, :logger, :plug, :poison],
+     mod: {Main,[]}]
   end
 
   # Dependencies can be Hex packages:
