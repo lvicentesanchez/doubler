@@ -7,7 +7,6 @@ defmodule Doubler.Mixfile do
      elixir: "~> 1.0.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     escript: [main_module: Main],
      deps: deps]
   end
 
@@ -29,8 +28,10 @@ defmodule Doubler.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:cowboy, "~> 1.0.0"},
+     {:exrm, "~> 0.17.0"},
      {:plug, "~> 0.13"},
-     {:poison, "~> 1.4"}]
+     {:poison, "~> 1.4"},
+     {:relx, github: "erlware/relx"}]
   end
 
 end
