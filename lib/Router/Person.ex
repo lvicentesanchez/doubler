@@ -1,5 +1,6 @@
 defmodule Router.Person do
-    
+
+    alias Data.Person, as: P
     import Plug.Conn
     import Poison
 
@@ -10,9 +11,14 @@ defmodule Router.Person do
 
     match "/", via: :post do
         { :ok, body, conn } = read_body(conn, [])
-        person = decode!(body, as: Data.Person)
-        { :ok, response } = encode(%{person | age: person.age*2}, [])
-        send_resp(conn, 200, response)
+        { status, body } =
+            case decode(body, as: Data.Person) do
+                { :ok, %P{name: name, age: age} } when not is_nil(name) and not is_nil(age) ->
+                    { 200, encode!(%P{name: name, age: age*2}, []) }
+                _ ->
+                    { 400, "bad request" }
+            end
+        send_resp(conn, status, body)
     end
 
     match _ do
@@ -20,4 +26,3 @@ defmodule Router.Person do
     end
 
 end
-
