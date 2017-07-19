@@ -1,4 +1,2 @@
 Doubler
 =======
-
-** TODO: Add description **

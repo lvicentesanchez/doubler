@@ -4,17 +4,17 @@ defmodule Doubler.Mixfile do
   def project do
     [app: :doubler,
      version: "0.0.1",
-     elixir: "~> 1.1.1",
+     elixir: "~> 1.4.5",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps()]
   end
 
   # Configuration for the OTP application
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:cowboy, :logger, :plug, :poison],
+    [applications: [:cowboy, :eex, :logger, :plug, :poison, :vex],
      mod: {Main,[]}]
   end
 
@@ -28,11 +28,11 @@ defmodule Doubler.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    [{:cowboy, "~> 1.0.4"},
-     {:exrm, "~> 0.19.9"},
-     {:plug, "~> 1.0.3"},
-     {:poison, "~> 1.5.0"},
-     {:relx, "3.5.0"}]
+    [{:distillery, "~> 1.4", runtime: false},
+     {:cowboy, "~> 1.1.2"},
+     {:plug, "~> 1.3.5"},
+     {:poison, "~> 3.1.0"},
+     {:vex, "~> 0.5.5"}]
   end
 
 end

@@ -1,6 +1,6 @@
 defmodule Router.Person do
 
-    alias Data.Person, as: P
+    alias  Data.Person, as: P
     import Plug.Conn
     import Poison
 
@@ -12,11 +12,15 @@ defmodule Router.Person do
     match "/", via: :post do
         { :ok, body, conn } = read_body(conn, [])
         { status, body } =
-            case decode(body, as: Data.Person) do
-                { :ok, %P{name: name, age: age} } when not is_nil(name) and not is_nil(age) ->
-                    { 200, encode!(%P{name: name, age: age*2}, []) }
-                _ ->
-                    { 400, "bad request" }
+            case decode(body, as: %P{}) do
+                { :ok, %P{ name: name, age: age } } ->
+                    if  Vex.valid?(%P{ name: name, age: age }) do
+                        { 200, encode!(%P{name: name, age: age*2}, []) }
+                    else
+                        { 400, "bad request "}
+                    end
+                {:error, error } ->
+                    { 500, error }
             end
         send_resp(conn, status, body)
     end
