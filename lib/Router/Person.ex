@@ -11,9 +11,11 @@ defmodule Router.Person do
 
     match "/", via: :post do
         { status, body } =
-            with { :ok, body, _ } <- read_body(conn, []),
-                 { :ok, user } <- decode(body, as: %P{}),
-                 { :ok, _ } <- Vex.validate(user) do
+            with \
+                { :ok, body, _ } <- read_body(conn, []),
+                { :ok, user } <- decode(body, as: %P{}),
+                { :ok, _ } <- Vex.validate(user)
+            do
                 { 200, encode!(%{ user | age: user.age * 2 }, []) }
             else
                 { :error, _ } -> { 400, "bad request" }
