@@ -32,7 +32,7 @@ defmodule Doubler.Mixfile do
      {:cowboy, "~> 1.1.2"},
      {:plug, "~> 1.3.5"},
      {:poison, "~> 3.1.0"},
-     {:vex, "~> 0.5.5"}]
+     {:vex, "~> 0.6.0"}]
   end
 
 end
